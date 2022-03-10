@@ -23,13 +23,13 @@ function FindProxyForURL(url, host)
    /* Catch all send to proxy-0 MSIP for isolation if both failed goto Proxy.Starhub */
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129';
    }
 
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129';
    }
    
    if ( url.substring(0, 4) === 'wss:' )
@@ -38,5 +38,5 @@ function FindProxyForURL(url, host)
    }
 
       
-   return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+   return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129';
 }
