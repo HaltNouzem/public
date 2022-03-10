@@ -31,6 +31,11 @@ function FindProxyForURL(url, host)
    {
       return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
    }
+   
+   if ( url.substring(0, 4) === 'wss:' )
+   {
+      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+   }
 
       
    return 'DIRECT';
