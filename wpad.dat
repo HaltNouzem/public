@@ -38,5 +38,5 @@ function FindProxyForURL(url, host)
    }
 
       
-   return 'DIRECT';
+   return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
 }
