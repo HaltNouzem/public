@@ -32,7 +32,7 @@ function FindProxyForURL(url, host)
       return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129';
    }
    
-   if ( url.substring(0, 4) === 'wss:' )
+   if ( dnsDomainIs(host, ".zoom.us") )
    {
       return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129';
    }
