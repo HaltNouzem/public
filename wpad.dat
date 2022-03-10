@@ -1,0 +1,37 @@
+function FindProxyForURL(url, host)
+{
+
+   /* Normalize the URL for pattern matching */
+   url = url.toLowerCase();
+   host = host.toLowerCase();
+
+   var hostOrDomainIs = function(host, val) {
+      return (host === val) || dnsDomainIs(host, '.' + val);
+   };
+
+   var hostIs = function(host, val) {
+      return (host === val);
+   };
+
+   /* Don't proxy local hostnames */
+   if (isPlainHostName(host))
+   {
+      return 'DIRECT';
+   }
+
+
+   /* Catch all send to proxy-0 MSIP for isolation if both failed goto Proxy.Starhub */
+   if ( url.substring(0, 6) === 'https:' )
+   {
+      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+   }
+
+
+   if ( url.substring(0, 5) === 'http:' )
+   {
+      return 'PROXY safeview-8ssa59498-camnguyen.devatron.net:3129; DIRECT';
+   }
+
+      
+   return 'DIRECT';
+}
