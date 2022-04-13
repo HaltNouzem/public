@@ -196,7 +196,7 @@ function FindProxyForURL(url, host)
    
    
    
-   if ( hostOrDomainIs(host, "facebook.com"))
+   if ( hostOrDomainIs(host, "emerald-hall.jp"))
    {
       return 'DIRECT';
    }
