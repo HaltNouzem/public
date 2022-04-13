@@ -58,7 +58,7 @@ function FindProxyForURL(url, host)
    /* All other service traffic goes through proxy */
    if ( dnsDomainIs(host, "devatron.net") )
    {
-      return 'PROXY safeview-8ssa63224-camnguyen.devatron.net:3128; DIRECT';
+      return 'PROXY safeview-8ssa63224-camnguyen.devatron.net:3129; DIRECT';
    }
 
 
@@ -193,25 +193,25 @@ function FindProxyForURL(url, host)
    {
       return 'DIRECT';
    }
-
-
-
-   if ( hostOrDomainIs(host, "facebook.com.com"))
+   
+   
+   
+   if ( hostOrDomainIs(host, "facebook.com"))
    {
       return 'DIRECT';
    }
 
 
 
-   /* Don't send Encrypted traffic to Proxy */
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'DIRECT';
+      return 'PROXY safeview-8ssa63224-camnguyen.devatron.net:3129; DIRECT';
    }
+
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY safeview-8ssa63224-camnguyen.devatron.net:3128; DIRECT';
+      return 'PROXY safeview-8ssa63224-camnguyen.devatron.net:3129; DIRECT';
    }
 
    return 'DIRECT';
