@@ -183,7 +183,8 @@ function FindProxyForURL(url, host)
 	hostOrDomainIs(host, "ticketmaster.com") ||
 	hostOrDomainIs(host, "ticketmaster.co.uk") ||
 	hostOrDomainIs(host, "wayfair.com") ||
-        hostOrDomainIs(host, "aws.amazon.com"))
+        hostOrDomainIs(host, "aws.amazon.com") ||
+        hostOrDomainIs(host, "cloudfront.net"))
    {
       return 'DIRECT';
    }
