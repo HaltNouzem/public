@@ -182,8 +182,8 @@ function FindProxyForURL(url, host)
    if ( hostOrDomainIs(host, "lululemon.com") ||
 	hostOrDomainIs(host, "ticketmaster.com") ||
 	hostOrDomainIs(host, "ticketmaster.co.uk") ||
-	hostOrDomainIs(host, "wayfair.com")) ||
-  hostOrDomainIs(host, "aws.amazon.com")
+	hostOrDomainIs(host, "wayfair.com") ||
+        hostOrDomainIs(host, "aws.amazon.com"))
    {
       return 'DIRECT';
    }
