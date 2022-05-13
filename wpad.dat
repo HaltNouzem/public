@@ -206,13 +206,13 @@ function FindProxyForURL(url, host)
 
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'PROXY proxy-rc.surfcrew.com:3129; DIRECT';
+      return 'PROXY 54.67.0.246:3129; DIRECT';
    }
 
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY proxy-rc.surfcrew.com:3129; DIRECT';
+      return 'PROXY 54.67.0.246:3129; DIRECT';
    }
 
    return 'DIRECT';
