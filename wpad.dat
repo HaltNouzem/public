@@ -201,7 +201,7 @@ function FindProxyForURL(url, host)
 
    if ( shExpMatch(url, "*send.dococab.jp/receive/auth.do") )
    {
-      return 'PROXY 54.67.12.157; DIRECT';
+      return 'PROXY 54.67.12.157:3129; DIRECT';
    }
 
    if ( url.substring(0, 6) === 'https:' )
