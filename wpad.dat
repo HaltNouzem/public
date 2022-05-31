@@ -195,14 +195,14 @@ function FindProxyForURL(url, host)
    }
 
 
-   if ( url.substring(0, 39) === 'https://send.dococab.jp/receive/auth.do' )
+   if ( url.substring(0, 100) === 'https://send.dococab.jp/receive/auth.do' )
    {
-      return 'PROXY ec2-54-71-43-88.us-west-2.compute.amazonaws.com:3129; DIRECT';
+      return 'PROXY ec2-54-71-43-88.us-west-2.compute.amazonaws.com:3129';
    }
 
-   if ( url.substring(0, 41) === 'https://send.dococab.jp/receive/login2.do' )
+   if ( url.substring(0, 100) === 'https://send.dococab.jp/receive/login2.do' )
    {
-      return 'PROXY ec2-54-186-58-109.us-west-2.compute.amazonaws.com:3129; DIRECT';
+      return 'PROXY ec2-54-186-58-109.us-west-2.compute.amazonaws.com:3129';
    }
 
    return 'DIRECT';
