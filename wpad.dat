@@ -61,12 +61,6 @@ function FindProxyForURL(url, host)
       return 'PROXY 18.236.160.242:3129; DIRECT';
    }
 
-
-   if ( dnsDomainIs(host, "dl.ndl.go.jp") )
-   {
-      return 'DIRECT';
-   }
-
    /* List all default domains */
 
    if ( shExpMatch(url, "*/restriction/issue/token/info:ndljp/pid/*"))
