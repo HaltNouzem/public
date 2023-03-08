@@ -58,7 +58,7 @@ function FindProxyForURL(url, host)
    /* All other service traffic goes through proxy */
    if ( dnsDomainIs(host, "devatron.net") )
    {
-      return 'PROXY proxy0-test-10vpc108714.devatron.net:3129; DIRECT';
+      return 'PROXY 18.236.160.242:3129; DIRECT';
    }
 
 
@@ -67,23 +67,23 @@ function FindProxyForURL(url, host)
 
    if ( shExpMatch(url, "*/restriction/issue/token/info:ndljp/pid/*"))
    {
-      return 'PROXY 34.215.178.9:3129';
+      return 'PROXY 54.214.134.6:3129';
    }
 
    if ( shExpMatch(url, "*/contents/2943205/*"))
    {
-      return 'PROXY 54.191.146.149:3129';
+      return 'PROXY 18.236.160.242:3129';
    }
 
    /* Don't send Encrypted traffic to Proxy */
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'PROXY proxy0-test-10vpc108714.devatron.net:3129';
+      return 'PROXY 18.236.160.242:3129';
    }
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY proxy0-test-10vpc108714.devatron.net:3129';
+      return 'PROXY 18.236.160.242:3129';
    }
 
    return 'DIRECT';
