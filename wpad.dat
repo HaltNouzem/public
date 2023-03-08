@@ -62,6 +62,10 @@ function FindProxyForURL(url, host)
    }
 
 
+   if ( dnsDomainIs(host, "dl.ndl.go.jp") )
+   {
+      return 'DIRECT';
+   }
 
    /* List all default domains */
 
