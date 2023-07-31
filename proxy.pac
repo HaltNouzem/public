@@ -11,7 +11,7 @@ function islocalip(ip) {
 function FindProxyForURL(url, host) 
 {
 
-    var ml_proxy = "PROXY proxy-rc-2890-b.surfcrew.com:6001; DIRECT";
+    var ml_proxy = "PROXY proxy-rc-2900-b.surfcrew.com:6001; DIRECT";
     var target_ip = dnsResolve(host);
 
     if (islocalip(target_ip)) { return 'DIRECT'; } 
