@@ -58,7 +58,7 @@ function FindProxyForURL(url, host)
    /* All other service traffic goes through proxy */
    if ( dnsDomainIs(host, "menlosecurity.com") )
    {
-      return 'PROXY proxy0-test-14vpc137309.devatron.net:3129; DIRECT';
+      return 'PROXY proxy0-test-14vpc137537.devatron.net:3129; DIRECT';
    }
 
 
@@ -112,13 +112,13 @@ function FindProxyForURL(url, host)
 
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'PROXY proxy0-test-14vpc137309.devatron.net:3129; DIRECT';
+      return 'PROXY proxy0-test-14vpc137537.devatron.net:3129; DIRECT';
    }
 
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY proxy0-test-14vpc137309.devatron.net:3129; DIRECT';
+      return 'PROXY proxy0-test-14vpc137537.devatron.net:3129; DIRECT';
    }
 
    return 'DIRECT';
