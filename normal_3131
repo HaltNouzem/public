@@ -11,7 +11,7 @@ function islocalip(ip) {
 function FindProxyForURL(url, host) 
 {
 
-    var menlo = "PROXY proxy0-test-14vpc137309.devatron.net:3131; DIRECT";
+    var menlo = "PROXY proxy0-test-14vpc137537.devatron.net:3131; DIRECT";
     var target_ip = dnsResolve(host);
 
     if (islocalip(target_ip)) { return 'DIRECT'; } 
