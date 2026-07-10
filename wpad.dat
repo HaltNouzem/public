@@ -58,7 +58,7 @@ function FindProxyForURL(url, host)
    /* All other service traffic goes through proxy */
    if ( dnsDomainIs(host, "surfcrew.com") )
    {
-      return 'PROXY proxy-4000-470.surfcrew.com:6017; PROXY proxy-4000-471.surfcrew.com:6017; DIRECT';
+      return 'PROXY proxy-47.surfcrew.com:6017; PROXY proxy-47.surfcrew.com:6017; DIRECT';
    }
 
 
@@ -220,13 +220,13 @@ function FindProxyForURL(url, host)
 
    if ( url.substring(0, 6) === 'https:' )
    {
-      return 'PROXY proxy-4000-470.surfcrew.com:6017; PROXY proxy-4000-471.surfcrew.com:6017; DIRECT';
+      return 'PROXY proxy-47.surfcrew.com:6017; PROXY proxy-47.surfcrew.com:6017; DIRECT';
    }
 
 
    if ( url.substring(0, 5) === 'http:' )
    {
-      return 'PROXY proxy-4000-470.surfcrew.com:6017; PROXY proxy-4000-471.surfcrew.com:6017; DIRECT';
+      return 'PROXY proxy-47.surfcrew.com:6017; PROXY proxy-47.surfcrew.com:6017; DIRECT';
    }
 
    return 'DIRECT';
