@@ -34,7 +34,8 @@ function FindProxyForURL(url, host)
 	hostOrDomainIs(host, "grabyo.com") ||
 	hostOrDomainIs(host, "fbcdn.net") ||
 	hostOrDomainIs(host, "facebook.com") ||
-	hostOrDomainIs(host, "fbsbx.com"))
+	hostOrDomainIs(host, "fbsbx.com") ||
+    hostOrDomainIs(host, "demo.piesocket.com"))
    {
    
       return 'PROXY safeview-8ssa319491-quangnguyen.devatron.net:3129; PROXY safeview-8ssa319491-quangnguyen.devatron.net:3129; DIRECT';
