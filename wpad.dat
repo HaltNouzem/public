@@ -1,0 +1,665 @@
+function FindProxyForURL(url, host)
+{
+
+   /* Normalize the URL for pattern matching */
+   url = url.toLowerCase();
+   host = host.toLowerCase();
+
+
+
+
+
+
+   var hostOrDomainIs = function(host, val) {
+      return (host === val) || dnsDomainIs(host, '.' + val);
+   };
+
+   var hostIs = function(host, val) {
+      return (host === val);
+   };
+
+   /* Don't proxy local hostnames */
+   if (isPlainHostName(host))
+   {
+      return 'DIRECT';
+   }
+
+
+
+    /* Don't check IPv6 addresses */
+   if (isResolvable(host))
+   {
+      var hostIP = dnsResolve(host);
+      if (!shExpMatch(hostIP, "*:*"))
+      {
+        /* Don't proxy non-routable addresses (RFC 3330) */
+        if (isInNet(hostIP, '0.0.0.0', '255.0.0.0') ||
+        isInNet(hostIP, '10.0.0.0', '255.0.0.0') ||
+        isInNet(hostIP, '127.0.0.0', '255.0.0.0') ||
+        isInNet(hostIP, '169.254.0.0', '255.255.0.0') ||
+        isInNet(hostIP, '172.16.0.0', '255.240.0.0') ||
+        isInNet(hostIP, '192.0.2.0', '255.255.255.0') ||
+        isInNet(hostIP, '192.88.99.0', '255.255.255.0') ||
+        isInNet(hostIP, '192.168.0.0', '255.255.0.0') ||
+        isInNet(hostIP, '198.18.0.0', '255.254.0.0') ||
+        isInNet(hostIP, '224.0.0.0', '240.0.0.0') ||
+        isInNet(hostIP, '240.0.0.0', '240.0.0.0'))
+        {
+           return 'DIRECT';
+        }
+      }
+   }
+
+
+
+   /* Direct admin access */
+   if ( host === "admin.menlosecurity.com" )
+   {
+      return 'DIRECT';
+   }
+
+
+
+
+   /* All other service traffic goes through proxy */
+   if ( dnsDomainIs(host, "menlosecurity.com") )
+   {
+      return 'PROXY safeview-3dnhg328127.devatron.net:3129; PROXY safeview-3dnhg328127.devatron.net:3129; DIRECT';
+   }
+
+
+   if (isResolvable(host))
+   {
+      var hostIP = dnsResolve(host);
+
+      if ( isInNet(hostIP, '103.78.128.104','255.255.255.248') ||
+	isInNet(hostIP, '202.178.114.96','255.255.255.240') ||
+	isInNet(hostIP, '124.248.171.138','255.255.255.255') ||
+	isInNet(hostIP, '136.228.141.51','255.255.255.255') ||
+	isInNet(hostIP, '13.107.6.152','255.255.255.254') ||
+	isInNet(hostIP, '13.107.18.10','255.255.255.254') ||
+	isInNet(hostIP, '13.107.128.0','255.255.252.0') ||
+	isInNet(hostIP, '23.103.160.0','255.255.240.0') ||
+	isInNet(hostIP, '40.96.0.0','255.248.0.0') ||
+	isInNet(hostIP, '40.104.0.0','255.254.0.0') ||
+	isInNet(hostIP, '52.96.0.0','255.252.0.0') ||
+	isInNet(hostIP, '131.253.33.215','255.255.255.255') ||
+	isInNet(hostIP, '132.245.0.0','255.255.0.0') ||
+	isInNet(hostIP, '150.171.32.0','255.255.252.0') ||
+	isInNet(hostIP, '204.79.197.215','255.255.255.255') ||
+	isInNet(hostIP, '40.92.0.0','255.254.0.0') ||
+	isInNet(hostIP, '40.107.0.0','255.255.0.0') ||
+	isInNet(hostIP, '52.100.0.0','255.252.0.0') ||
+	isInNet(hostIP, '52.238.78.88','255.255.255.255') ||
+	isInNet(hostIP, '104.47.0.0','255.255.128.0') ||
+	isInNet(hostIP, '13.107.136.0','255.255.252.0') ||
+	isInNet(hostIP, '40.108.128.0','255.255.128.0') ||
+	isInNet(hostIP, '52.104.0.0','255.252.0.0') ||
+	isInNet(hostIP, '104.146.128.0','255.255.128.0') ||
+	isInNet(hostIP, '150.171.40.0','255.255.252.0') ||
+	isInNet(hostIP, '52.112.0.0','255.252.0.0') ||
+	isInNet(hostIP, '52.122.0.0','255.254.0.0') ||
+	isInNet(hostIP, '52.238.119.141','255.255.255.255') ||
+	isInNet(hostIP, '52.244.160.207','255.255.255.255') ||
+	isInNet(hostIP, '13.107.6.171','255.255.255.255') ||
+	isInNet(hostIP, '13.107.18.15','255.255.255.255') ||
+	isInNet(hostIP, '13.107.140.6','255.255.255.255') ||
+	isInNet(hostIP, '52.108.0.0','255.252.0.0') ||
+	isInNet(hostIP, '52.244.37.168','255.255.255.255') ||
+	isInNet(hostIP, '20.20.32.0','255.255.224.0') ||
+	isInNet(hostIP, '20.190.128.0','255.255.192.0') ||
+	isInNet(hostIP, '20.231.128.0','255.255.224.0') ||
+	isInNet(hostIP, '40.126.0.0','255.255.192.0') ||
+	isInNet(hostIP, '13.107.6.192','255.255.255.255') ||
+	isInNet(hostIP, '13.107.9.192','255.255.255.255') )
+      {
+         return 'DIRECT';
+      }
+   }
+
+
+   /* List all default domains */
+
+   if ( dnsDomainIs(host, ".windowsupdate.microsoft.com") ||
+	dnsDomainIs(host, ".update.microsoft.com") ||
+	dnsDomainIs(host, "emdl.ws.microsoft.com") ||
+	dnsDomainIs(host, ".delivery.mp.microsoft.com") ||
+	dnsDomainIs(host, "windowsupdate.com") ||
+	dnsDomainIs(host, "delivery.mp.microsoft.com") ||
+	dnsDomainIs(host, "update.microsoft.com") ||
+	dnsDomainIs(host, "tsfe.trafficshaping.dsp.mp.microsoft.com") ||
+	dnsDomainIs(host, ".do.dsp.mp.microsoft.com") ||
+	dnsDomainIs(host, ".download.microsoft.com") ||
+	dnsDomainIs(host, "wustat.microsoft.com") ||
+	dnsDomainIs(host, ".emdl.ws.microsoft.com") ||
+	dnsDomainIs(host, ".download.windowsupdate.com") ||
+	dnsDomainIs(host, ".ntservicepack.microsoft.com") ||
+	dnsDomainIs(host, ".cdm.microsoft.com") ||
+	dnsDomainIs(host, "store-images.s-microsoft.com") ||
+	dnsDomainIs(host, "store-images.microsoft.com") ||
+	dnsDomainIs(host, "mediadiscovery.microsoft.com") ||
+	dnsDomainIs(host, "media-assetcatalog.microsoft.com") ||
+	dnsDomainIs(host, "mp.microsoft.com") ||
+	dnsDomainIs(host, "activity.windows.com") ||
+	dnsDomainIs(host, "edl.windows.com") ||
+	dnsDomainIs(host, "wdcp.microsoft.com") ||
+	dnsDomainIs(host, "smartscreen-prod.microsoft.com") ||
+	dnsDomainIs(host, "smartscreen.microsoft.com") ||
+	dnsDomainIs(host, "checkappexec.microsoft.com") ||
+	dnsDomainIs(host, "sls.microsoft.com"))
+   {
+      return 'DIRECT';
+   }
+   
+   if ( hostOrDomainIs(host, "itunes.apple.com") ||
+	dnsDomainIs(host, ".api.apps.apple.com") ||
+	dnsDomainIs(host, ".icloud.com") ||
+	dnsDomainIs(host, ".cdn-apple.com") ||
+	dnsDomainIs(host, ".ess.apple.com") ||
+	dnsDomainIs(host, ".gc.apple.com") ||
+	dnsDomainIs(host, ".ls.apple.com") ||
+	dnsDomainIs(host, ".smoot.apple.com") ||
+	dnsDomainIs(host, ".swquery.apple.com") ||
+	dnsDomainIs(host, "appldnld.apple.com") ||
+	dnsDomainIs(host, "configuration.apple.com") ||
+	dnsDomainIs(host, "gdmf-ados.apple.com") ||
+	dnsDomainIs(host, "gdmf.apple.com") ||
+	dnsDomainIs(host, "gg.apple.com") ||
+	dnsDomainIs(host, "gs.apple.com") ||
+	dnsDomainIs(host, "gsa.apple.com") ||
+	dnsDomainIs(host, "gsas.apple.com") ||
+	dnsDomainIs(host, "gsra.apple.com") ||
+	dnsDomainIs(host, "identity.apple.com") ||
+	dnsDomainIs(host, "ig.apple.com") ||
+	dnsDomainIs(host, "mesu.apple.com") ||
+	dnsDomainIs(host, "oscdn.apple.com") ||
+	dnsDomainIs(host, "osrecovery.apple.com") ||
+	dnsDomainIs(host, "skl.apple.com") ||
+	dnsDomainIs(host, "smp-device-content.apple.com") ||
+	dnsDomainIs(host, "swcdn.apple.com") ||
+	dnsDomainIs(host, "swdist.apple.com") ||
+	dnsDomainIs(host, "swdownload.apple.com") ||
+	dnsDomainIs(host, "swscan.apple.com") ||
+	dnsDomainIs(host, "wkms-public.apple.com") ||
+	dnsDomainIs(host, "xp.apple.com"))
+   {
+      return 'DIRECT';
+   }
+   
+   if ( hostOrDomainIs(host, "netflix.com") ||
+	hostOrDomainIs(host, "netflix.net") ||
+	hostOrDomainIs(host, "nflximg.com") ||
+	hostOrDomainIs(host, "nflximg.net") ||
+	hostOrDomainIs(host, "nflxvideo.net") ||
+	hostOrDomainIs(host, "nflxext.com") ||
+	hostOrDomainIs(host, "nflximg.com.edgesuite.net") ||
+	isInNet(host, "216.21.170.128","255.255.255.240") ||
+	isInNet(host, "192.173.64.0","255.255.192.0") ||
+	isInNet(host, "198.45.48.0","255.255.240.0") ||
+	isInNet(host, "216.21.170.96","255.255.255.240") ||
+	isInNet(host, "108.175.32.0","255.255.240.0") ||
+	isInNet(host, "198.38.96.0","255.255.224.0") ||
+	isInNet(host, "192.119.16.224","255.255.255.240") ||
+	isInNet(host, "216.21.170.144","255.255.255.240") ||
+	isInNet(host, "23.246.0.0","255.255.192.0") ||
+	isInNet(host, "37.77.184.0","255.255.255.0") ||
+	isInNet(host, "37.77.185.0","255.255.255.0") ||
+	isInNet(host, "37.77.188.0","255.255.255.0") ||
+	isInNet(host, "37.77.189.0","255.255.255.0") ||
+	isInNet(host, "37.77.190.0","255.255.255.0") ||
+	isInNet(host, "37.77.191.0","255.255.255.0") ||
+	isInNet(host, "69.53.229.0","255.255.255.0") ||
+	isInNet(host, "185.2.220.0","255.255.255.0") ||
+	isInNet(host, "185.2.221.0","255.255.255.0") ||
+	isInNet(host, "185.2.222.0","255.255.255.0") ||
+	isInNet(host, "185.2.223.0","255.255.255.0") ||
+	isInNet(host, "185.9.188.0","255.255.255.0") ||
+	isInNet(host, "192.173.80.0","255.255.192.0") ||
+	isInNet(host, "192.173.96.0","255.255.192.0"))
+   {
+      return 'DIRECT';
+   }
+   
+   if ( dnsDomainIs(host, ".cortana.ai") ||
+	dnsDomainIs(host, ".aadrm.com") ||
+	hostIs(host, "ajax.aspnetcdn.com") ||
+	dnsDomainIs(host, ".informationprotection.azure.com") ||
+	dnsDomainIs(host, ".azurerms.com") ||
+	dnsDomainIs(host, ".portal.cloudappsecurity.com") ||
+	hostIs(host, "platform.linkedin.com") ||
+	hostIs(host, "g.live.com") ||
+	dnsDomainIs(host, ".hip.live.com") ||
+	hostIs(host, "office.live.com") ||
+	hostIs(host, "officeapps.live.com") ||
+	dnsDomainIs(host, ".officeapps.live.com") ||
+	hostIs(host, "cdn.odc.officeapps.live.com") ||
+	hostIs(host, "cdn.uci.officeapps.live.com") ||
+	dnsDomainIs(host, ".lync.com") ||
+	hostIs(host, "admin.microsoft.com") ||
+	hostIs(host, "appsforoffice.microsoft.com") ||
+	dnsDomainIs(host, ".aria.microsoft.com") ||
+	dnsDomainIs(host, ".auth.microsoft.com") ||
+	hostIs(host, "c1.microsoft.com") ||
+	hostIs(host, "compliance.microsoft.com") ||
+	hostIs(host, "crl.microsoft.com") ||
+	dnsDomainIs(host, ".events.data.microsoft.com") ||
+	hostIs(host, "defender.microsoft.com") ||
+	hostIs(host, "docs.microsoft.com") ||
+	hostIs(host, "flow.microsoft.com") ||
+	dnsDomainIs(host, ".flow.microsoft.com") ||
+	hostIs(host, "go.microsoft.com") ||
+	hostIs(host, "graph.microsoft.com") ||
+	hostIs(host, "login.microsoft.com") ||
+	hostIs(host, "msdn.microsoft.com") ||
+	hostIs(host, "r.office.microsoft.com") ||
+	hostIs(host, "office15client.microsoft.com") ||
+	hostIs(host, "officecdn.microsoft.com") ||
+	hostIs(host, "officeclient.microsoft.com") ||
+	hostIs(host, "officepreviewredir.microsoft.com") ||
+	hostIs(host, "officeredir.microsoft.com") ||
+	hostIs(host, "o15.officeredir.microsoft.com") ||
+	hostIs(host, "purview.microsoft.com") ||
+	hostIs(host, "security.microsoft.com") ||
+	dnsDomainIs(host, ".security.microsoft.com") ||
+	hostIs(host, "activation.sls.microsoft.com") ||
+	hostIs(host, "support.microsoft.com") ||
+	hostIs(host, "dgps.support.microsoft.com") ||
+	hostIs(host, "teams.microsoft.com") ||
+	dnsDomainIs(host, ".teams.microsoft.com") ||
+	hostIs(host, "technet.microsoft.com") ||
+	hostIs(host, "whiteboard.microsoft.com") ||
+	hostIs(host, "www.microsoft365.com") ||
+	hostIs(host, "autologon.microsoftazuread-sso.com") ||
+	dnsDomainIs(host, ".microsoftonline-p.com") ||
+	hostIs(host, "login.microsoftonline-p.com") ||
+	hostIs(host, "nexus.microsoftonline-p.com") ||
+	dnsDomainIs(host, ".microsoftonline.com") ||
+	hostIs(host, "adminwebservice.microsoftonline.com") ||
+	hostIs(host, "becws.microsoftonline.com") ||
+	hostIs(host, "companymanager.microsoftonline.com") ||
+	hostIs(host, "login.microsoftonline.com") ||
+	hostIs(host, "login-us.microsoftonline.com") ||
+	hostIs(host, "ccs.login.microsoftonline.com") ||
+	hostIs(host, "device.login.microsoftonline.com") ||
+	hostIs(host, "logincert.microsoftonline.com") ||
+	hostIs(host, "loginex.microsoftonline.com") ||
+	hostIs(host, "passwordreset.microsoftonline.com") ||
+	hostIs(host, "api.passwordreset.microsoftonline.com") ||
+	hostIs(host, "provisioningapi.microsoftonline.com") ||
+	hostIs(host, "web.microsoftstream.com") ||
+	dnsDomainIs(host, ".msftidentity.com") ||
+	dnsDomainIs(host, ".msidentity.com") ||
+	hostIs(host, "prod.msocdn.com") ||
+	hostIs(host, "shellprod.msocdn.com") ||
+	dnsDomainIs(host, ".o365weve.com") ||
+	dnsDomainIs(host, ".office.com") ||
+	dnsDomainIs(host, ".online.office.com") ||
+	hostIs(host, "outlook.office.com") ||
+	hostIs(host, "protection.office.com") ||
+	dnsDomainIs(host, ".protection.office.com") ||
+	dnsDomainIs(host, ".office365.com") ||
+	hostIs(host, "outlook.office365.com") ||
+	hostIs(host, "smtp.office365.com") ||
+	hostIs(host, "admin.onedrive.com") ||
+	hostIs(host, "www.onedrive.com") ||
+	dnsDomainIs(host, ".onenote.com") ||
+	dnsDomainIs(host, ".outlook.com") ||
+	dnsDomainIs(host, ".protection.outlook.com") ||
+	dnsDomainIs(host, ".mail.protection.outlook.com") ||
+	dnsDomainIs(host, ".powerapps.com") ||
+	hostIs(host, "make.powerapps.com") ||
+	dnsDomainIs(host, ".powerautomate.com") ||
+	dnsDomainIs(host, ".sharepointonline.com") ||
+	dnsDomainIs(host, ".skype.com") ||
+	hostIs(host, "join.secure.skypeassets.com") ||
+	hostIs(host, "activity.windows.com") ||
+	dnsDomainIs(host, ".activity.windows.com") ||
+	dnsDomainIs(host, ".wns.windows.com") ||
+	hostIs(host, "account.activedirectory.windowsazure.com") ||
+	dnsDomainIs(host, ".yammer.com") ||
+	dnsDomainIs(host, ".cloud.microsoft") ||
+	hostIs(host, "outlook.cloud.microsoft") ||
+	hostIs(host, "teams.cloud.microsoft") ||
+	dnsDomainIs(host, ".teams.cloud.microsoft") ||
+	dnsDomainIs(host, ".mx.microsoft") ||
+	dnsDomainIs(host, ".static.microsoft") ||
+	dnsDomainIs(host, ".usercontent.microsoft") ||
+	hostIs(host, "aka.ms") ||
+	hostIs(host, "auth.gfx.ms") ||
+	hostIs(host, "assets.onestore.ms") ||
+	hostIs(host, "oneclient.sfx.ms") ||
+	dnsDomainIs(host, ".svc.ms") ||
+	hostIs(host, "spoprod-a.akamaihd.net") ||
+	dnsDomainIs(host, ".azure-apim.net") ||
+	hostIs(host, "amp.azure.net") ||
+	hostIs(host, "informationprotection.hosting.portal.azure.net") ||
+	hostIs(host, "mlccdnprod.azureedge.net") ||
+	hostIs(host, "otelrules.azureedge.net") ||
+	hostIs(host, "apis.live.net") ||
+	hostIs(host, "clientconfig.microsoftonline-p.net") ||
+	dnsDomainIs(host, ".msauth.net") ||
+	dnsDomainIs(host, ".msauthimages.net") ||
+	dnsDomainIs(host, ".msecnd.net") ||
+	dnsDomainIs(host, ".msftauth.net") ||
+	dnsDomainIs(host, ".msftauthimages.net") ||
+	dnsDomainIs(host, ".office.net") ||
+	dnsDomainIs(host, "cdn.onenote.net") ||
+	dnsDomainIs(host, ".phonefactor.net") ||
+	hostIs(host, "ecn.dev.virtualearth.net") ||
+	hostIs(host, "accounts.accesscontrol.windows.net") ||
+	hostIs(host, "enterpriseregistration.windows.net") ||
+	hostIs(host, "graph.windows.net") ||
+	hostIs(host, "login.windows.net") ||
+	dnsDomainIs(host, ".keydelivery.mediaservices.windows.net") ||
+	dnsDomainIs(host, ".streaming.mediaservices.windows.net"))
+   {
+      return 'DIRECT';
+   }
+   
+
+
+   if ( hostOrDomainIs(host, "pod1301zso.idaptive.app") ||
+	hostOrDomainIs(host, "wbc.my.idaptive.app") ||
+	hostOrDomainIs(host, "nms.sinet.com.kh") ||
+	hostOrDomainIs(host, "3dsecure.net") ||
+	hostOrDomainIs(host, "visasecuretestsuite.3dsecure.net") ||
+	hostOrDomainIs(host, "papitest.mekongnet.com.kh") ||
+	hostOrDomainIs(host, "file.edc.com.kh") ||
+	hostOrDomainIs(host, "staging.edc.com.kh") ||
+	hostOrDomainIs(host, "staging.oone.bz") ||
+	hostOrDomainIs(host, "nbc.gov.kh") ||
+	hostOrDomainIs(host, "embed.tawk.to") ||
+	hostOrDomainIs(host, "tawk.to") ||
+	hostOrDomainIs(host, "va.tawk.to") ||
+	hostOrDomainIs(host, "monitor.mekongnet.com.kh") ||
+	hostOrDomainIs(host, "prometric.com") ||
+	hostOrDomainIs(host, "sisa-rptest.prometric.com") ||
+	hostOrDomainIs(host, "emstrack.allcredit.co.kr") ||
+	hostOrDomainIs(host, "www.tax.gov.kh") ||
+	hostOrDomainIs(host, "efiling.tax.gov.kh") ||
+	hostOrDomainIs(host, "owp.tax.gov.kh") ||
+	hostOrDomainIs(host, "tax.gov.kh") ||
+	hostOrDomainIs(host, "microsoft.com") ||
+	hostOrDomainIs(host, "mlmupc.gov.kh") ||
+	hostOrDomainIs(host, "idc.gdi.gov.kh") ||
+	hostOrDomainIs(host, "voterlist.nec.gov.kh") ||
+	hostOrDomainIs(host, "mptc.gov.kh") ||
+	hostOrDomainIs(host, "lms.dai-ichilife.com.kh") ||
+	hostOrDomainIs(host, "allcredit.co.kr") ||
+	hostOrDomainIs(host, "crossborder.allcredit.co.kr") ||
+	hostOrDomainIs(host, "nssf.gov.kh") ||
+	hostOrDomainIs(host, "api-bakong.nbc.gov.kh") ||
+	hostOrDomainIs(host, "connect.bredcambodia.com.kh") ||
+	hostOrDomainIs(host, "fwcms.mlvt.gov.kh") ||
+	hostOrDomainIs(host, "customs.gov.kh") ||
+	hostOrDomainIs(host, "wbclms.talentlms.com") ||
+	hostOrDomainIs(host, "cdn2.talentlms.com") ||
+	hostOrDomainIs(host, "lacms.mlvt.gov.kh") ||
+	hostOrDomainIs(host, "mpwt.gov.kh") ||
+	hostOrDomainIs(host, "interior.gov.kh") ||
+	hostOrDomainIs(host, "partners.truemoney.com.kh") ||
+	hostOrDomainIs(host, "gstatic.com") ||
+	hostOrDomainIs(host, "creditbureau.com.kh") ||
+	hostOrDomainIs(host, "msftncsi.com") ||
+	hostOrDomainIs(host, "access.cdn.redhat.com") ||
+	hostOrDomainIs(host, "teams.microsoft.us") ||
+	hostOrDomainIs(host, "azureedge.net") ||
+	hostOrDomainIs(host, "blob.core.windows.net") ||
+	hostOrDomainIs(host, "portal.azure.net") ||
+	hostOrDomainIs(host, "wbfinance.com.kh") ||
+	hostOrDomainIs(host, "kaspersky-lab.com") ||
+	hostOrDomainIs(host, "login.microsoftonline.com") ||
+	hostOrDomainIs(host, "officecdn-microsoft-com.akamaized.net") ||
+	hostOrDomainIs(host, "oneocsp.microsoft.com") ||
+	hostOrDomainIs(host, "crl.microsoft.com") ||
+	hostOrDomainIs(host, "secure.aadcdn.microsoftonline-p.com") ||
+	hostOrDomainIs(host, "globalsecureaccess.microsoft.com") ||
+	hostOrDomainIs(host, "private.edgediagnostic.globalsecureaccess.microsoft.com") ||
+	hostOrDomainIs(host, "aps.globalsecureaccess.microsoft.com") ||
+	hostOrDomainIs(host, "my.microsoftpersonalcontent.com") ||
+	hostOrDomainIs(host, "enrollment.manage.microsoft.com") ||
+	hostOrDomainIs(host, "manage.microsoft.com") ||
+	hostOrDomainIs(host, "graph.microsoft.com") ||
+	hostOrDomainIs(host, "account.live.com") ||
+	hostOrDomainIs(host, "smartscreen.microsoft.com") ||
+	hostOrDomainIs(host, "stamp2.login.microsoftonline.com") ||
+	hostOrDomainIs(host, "mesh-hearts-teams.azurewebsites.net") ||
+	hostOrDomainIs(host, "meshxp.net") ||
+	hostOrDomainIs(host, "res-sdf.cdn.office.net") ||
+	hostOrDomainIs(host, "res.cdn.office.net") ||
+	hostOrDomainIs(host, "copilot.teams.cloud.microsoft") ||
+	hostOrDomainIs(host, "local.copilot.teams.office.com") ||
+	hostOrDomainIs(host, "dc1.ksn.kaspersky-labs.com") ||
+	hostOrDomainIs(host, "res-1.cdn.office.net") ||
+	hostOrDomainIs(host, "config.teams.microsoft.com") ||
+	hostOrDomainIs(host, "edge.microsoft.com") ||
+	hostOrDomainIs(host, "teams.events.data.microsoft.com") ||
+	hostOrDomainIs(host, "statics.teams.cdn.office.net") ||
+	hostOrDomainIs(host, "teams.static.microsoft") ||
+	hostOrDomainIs(host, "ipagave.azurewebsites.net") ||
+	hostOrDomainIs(host, "crl.pki.goog") ||
+	hostOrDomainIs(host, "ipv6.msftconnecttest.com") ||
+	hostOrDomainIs(host, "msftconnecttest.com") ||
+	hostOrDomainIs(host, "static-asm.secure.skypeassets.com") ||
+	hostOrDomainIs(host, "windows.msn.com") ||
+	hostOrDomainIs(host, "x2.c.lencr.org") ||
+	hostOrDomainIs(host, "x1.c.lencr.org") ||
+	hostOrDomainIs(host, "c.pki.goog") ||
+	hostOrDomainIs(host, "autodiscover.visionfundcambodia.onmicrosoft.com") ||
+	hostOrDomainIs(host, "wooribank.com.kh") ||
+	hostOrDomainIs(host, "wbfdckas-1.wbfinance.com.kh") ||
+	hostOrDomainIs(host, "login.live.com") ||
+	hostOrDomainIs(host, "teams.cloud.microsoft") ||
+	hostOrDomainIs(host, "teams.microsoft.com") ||
+	hostOrDomainIs(host, "teams.live.com") ||
+	hostOrDomainIs(host, "msgapi.teams.live.com") ||
+	hostOrDomainIs(host, "vpn.wbfinance.com.kh") ||
+	hostOrDomainIs(host, "vpn2.wbfinance.com.kh") ||
+	hostOrDomainIs(host, "vpn1.wbfinance.com.kh") ||
+	hostOrDomainIs(host, "msftauth.net") ||
+	hostOrDomainIs(host, "msauth.net") ||
+	hostOrDomainIs(host, "microsoftonline-p.com") ||
+	hostOrDomainIs(host, "sts.windows.net") ||
+	hostOrDomainIs(host, "cloud.microsoft") ||
+	hostOrDomainIs(host, "static.microsoft") ||
+	hostOrDomainIs(host, "usercontent.microsoft") ||
+	hostOrDomainIs(host, "outlook.cloud.microsoft") ||
+	hostOrDomainIs(host, "outlook.office.com") ||
+	hostOrDomainIs(host, "outlook.office365.com") ||
+	hostOrDomainIs(host, "smtp.office365.com") ||
+	hostOrDomainIs(host, "outlook.com") ||
+	hostOrDomainIs(host, "autodiscover.wooribank.onmicrosoft.com") ||
+	hostOrDomainIs(host, "autodiscover.wbfinance.onmicrosoft.com") ||
+	hostOrDomainIs(host, "protection.outlook.com") ||
+	hostOrDomainIs(host, "mail.protection.outlook.com") ||
+	hostOrDomainIs(host, "mx.microsoft") ||
+	hostOrDomainIs(host, "sharepoint.com") ||
+	hostOrDomainIs(host, "ssw.live.com") ||
+	hostOrDomainIs(host, "storage.live.com") ||
+	hostOrDomainIs(host, "search.production.apac.trafficmanager.net") ||
+	hostOrDomainIs(host, "search.production.emea.trafficmanager.net") ||
+	hostOrDomainIs(host, "search.production.us.trafficmanager.net") ||
+	hostOrDomainIs(host, "wns.windows.com") ||
+	hostOrDomainIs(host, "admin.onedrive.com") ||
+	hostOrDomainIs(host, "officeclient.microsoft.com") ||
+	hostOrDomainIs(host, "g.live.com") ||
+	hostOrDomainIs(host, "oneclient.sfx.ms") ||
+	hostOrDomainIs(host, "sharepointonline.com") ||
+	hostOrDomainIs(host, "spoprod-a.akamaihd.net") ||
+	hostOrDomainIs(host, "svc.ms") ||
+	hostOrDomainIs(host, "lync.com") ||
+	hostOrDomainIs(host, "keydelivery.mediaservices.windows.net") ||
+	hostOrDomainIs(host, "streaming.mediaservices.windows.net") ||
+	hostOrDomainIs(host, "aka.ms") ||
+	hostOrDomainIs(host, "users.storage.live.com") ||
+	hostOrDomainIs(host, "adl.windows.com") ||
+	hostOrDomainIs(host, "join.secure.skypeassets.com") ||
+	hostOrDomainIs(host, "mlccdnprod.azureedge.net") ||
+	hostOrDomainIs(host, "skype.com") ||
+	hostOrDomainIs(host, "compass-ssl.microsoft.com") ||
+	hostOrDomainIs(host, "officeapps.live.com") ||
+	hostOrDomainIs(host, "online.office.com") ||
+	hostOrDomainIs(host, "office.live.com") ||
+	hostOrDomainIs(host, "office.net") ||
+	hostOrDomainIs(host, "onenote.com") ||
+	hostOrDomainIs(host, "cdn.onenote.net") ||
+	hostOrDomainIs(host, "ajax.aspnetcdn.com") ||
+	hostOrDomainIs(host, "apis.live.net") ||
+	hostOrDomainIs(host, "www.onedrive.com") ||
+	hostOrDomainIs(host, "auth.microsoft.com") ||
+	hostOrDomainIs(host, "msftidentity.com") ||
+	hostOrDomainIs(host, "msidentity.com") ||
+	hostOrDomainIs(host, "account.activedirectory.windowsazure.com") ||
+	hostOrDomainIs(host, "accounts.accesscontrol.windows.net") ||
+	hostOrDomainIs(host, "adminwebservice.microsoftonline.com") ||
+	hostOrDomainIs(host, "api.passwordreset.microsoftonline.com") ||
+	hostOrDomainIs(host, "autologon.microsoftazuread-sso.com") ||
+	hostOrDomainIs(host, "becws.microsoftonline.com") ||
+	hostOrDomainIs(host, "ccs.login.microsoftonline.com") ||
+	hostOrDomainIs(host, "clientconfig.microsoftonline-p.net") ||
+	hostOrDomainIs(host, "companymanager.microsoftonline.com") ||
+	hostOrDomainIs(host, "device.login.microsoftonline.com") ||
+	hostOrDomainIs(host, "graph.windows.net") ||
+	hostOrDomainIs(host, "login-us.microsoftonline.com") ||
+	hostOrDomainIs(host, "login.microsoft.com") ||
+	hostOrDomainIs(host, "login.microsoftonline-p.com") ||
+	hostOrDomainIs(host, "login.windows.net") ||
+	hostOrDomainIs(host, "logincert.microsoftonline.com") ||
+	hostOrDomainIs(host, "loginex.microsoftonline.com") ||
+	hostOrDomainIs(host, "nexus.microsoftonline-p.com") ||
+	hostOrDomainIs(host, "passwordreset.microsoftonline.com") ||
+	hostOrDomainIs(host, "provisioningapi.microsoftonline.com") ||
+	hostOrDomainIs(host, "hip.live.com") ||
+	hostOrDomainIs(host, "microsoftonline.com") ||
+	hostOrDomainIs(host, "msauthimages.net") ||
+	hostOrDomainIs(host, "msecnd.net") ||
+	hostOrDomainIs(host, "msftauthimages.net") ||
+	hostOrDomainIs(host, "phonefactor.net") ||
+	hostOrDomainIs(host, "enterpriseregistration.windows.net") ||
+	hostOrDomainIs(host, "protection.office.com") ||
+	hostOrDomainIs(host, "security.microsoft.com") ||
+	hostOrDomainIs(host, "compliance.microsoft.com") ||
+	hostOrDomainIs(host, "defender.microsoft.com") ||
+	hostOrDomainIs(host, "purview.microsoft.com") ||
+	hostOrDomainIs(host, "portal.cloudappsecurity.com") ||
+	hostOrDomainIs(host, "aria.microsoft.com") ||
+	hostOrDomainIs(host, "events.data.microsoft.com") ||
+	hostOrDomainIs(host, "appsforoffice.microsoft.com") ||
+	hostOrDomainIs(host, "assets.onestore.ms") ||
+	hostOrDomainIs(host, "auth.gfx.ms") ||
+	hostOrDomainIs(host, "c1.microsoft.com") ||
+	hostOrDomainIs(host, "dgps.support.microsoft.com") ||
+	hostOrDomainIs(host, "docs.microsoft.com") ||
+	hostOrDomainIs(host, "msdn.microsoft.com") ||
+	hostOrDomainIs(host, "platform.linkedin.com") ||
+	hostOrDomainIs(host, "prod.msocdn.com") ||
+	hostOrDomainIs(host, "shellprod.msocdn.com") ||
+	hostOrDomainIs(host, "support.microsoft.com") ||
+	hostOrDomainIs(host, "technet.microsoft.com") ||
+	hostOrDomainIs(host, "office365.com") ||
+	hostOrDomainIs(host, "aadrm.com") ||
+	hostOrDomainIs(host, "azurerms.com") ||
+	hostOrDomainIs(host, "informationprotection.azure.com") ||
+	hostOrDomainIs(host, "ecn.dev.virtualearth.net") ||
+	hostOrDomainIs(host, "informationprotection.hosting.portal.azure.net") ||
+	hostOrDomainIs(host, "dc.services.visualstudio.com") ||
+	hostOrDomainIs(host, "mem.gfx.ms") ||
+	hostOrDomainIs(host, "staffhub.ms") ||
+	hostOrDomainIs(host, "staffhubweb.azureedge.net") ||
+	hostOrDomainIs(host, "msocdn.com") ||
+	hostOrDomainIs(host, "onmicrosoft.com") ||
+	hostOrDomainIs(host, "o15.officeredir.microsoft.com") ||
+	hostOrDomainIs(host, "officepreviewredir.microsoft.com") ||
+	hostOrDomainIs(host, "officeredir.microsoft.com") ||
+	hostOrDomainIs(host, "r.office.microsoft.com") ||
+	hostOrDomainIs(host, "activation.sls.microsoft.com") ||
+	hostOrDomainIs(host, "office15client.microsoft.com") ||
+	hostOrDomainIs(host, "go.microsoft.com") ||
+	hostOrDomainIs(host, "cdn.odc.officeapps.live.com") ||
+	hostOrDomainIs(host, "officecdn.microsoft.com") ||
+	hostOrDomainIs(host, "officecdn.microsoft.com.edgesuite.net") ||
+	hostOrDomainIs(host, "otelrules.azureedge.net") ||
+	hostOrDomainIs(host, "virtualearth.net") ||
+	hostOrDomainIs(host, "c.bing.net") ||
+	hostOrDomainIs(host, "ocos-office365-s2s.msedge.net") ||
+	hostOrDomainIs(host, "tse1.mm.bing.net") ||
+	hostOrDomainIs(host, "www.bing.com") ||
+	hostOrDomainIs(host, "acompli.net") ||
+	hostOrDomainIs(host, "outlookmobile.com") ||
+	hostOrDomainIs(host, "login.windows-ppe.net") ||
+	hostOrDomainIs(host, "www.acompli.com") ||
+	hostOrDomainIs(host, "appex-rf.msn.com") ||
+	hostOrDomainIs(host, "appex.bing.com") ||
+	hostOrDomainIs(host, "c.bing.com") ||
+	hostOrDomainIs(host, "c.live.com") ||
+	hostOrDomainIs(host, "d.docs.live.net") ||
+	hostOrDomainIs(host, "docs.live.net") ||
+	hostOrDomainIs(host, "partnerservices.getmicrosoftkey.com") ||
+	hostOrDomainIs(host, "signup.live.com") ||
+	hostOrDomainIs(host, "yammer.com") ||
+	hostOrDomainIs(host, "yammerusercontent.com") ||
+	hostOrDomainIs(host, "assets-yammer.com") ||
+	hostOrDomainIs(host, "www.outlook.com") ||
+	hostOrDomainIs(host, "eus-www.sway-cdn.com") ||
+	hostOrDomainIs(host, "eus-www.sway-extensions.com") ||
+	hostOrDomainIs(host, "wus-www.sway-cdn.com") ||
+	hostOrDomainIs(host, "wus-www.sway-extensions.com") ||
+	hostOrDomainIs(host, "sway.com") ||
+	hostOrDomainIs(host, "www.sway.com") ||
+	hostOrDomainIs(host, "entrust.net") ||
+	hostOrDomainIs(host, "geotrust.com") ||
+	hostOrDomainIs(host, "omniroot.com") ||
+	hostOrDomainIs(host, "public-trust.com") ||
+	hostOrDomainIs(host, "symcb.com") ||
+	hostOrDomainIs(host, "symcd.com") ||
+	hostOrDomainIs(host, "verisign.com") ||
+	hostOrDomainIs(host, "verisign.net") ||
+	hostOrDomainIs(host, "cacerts.digicert.com") ||
+	hostOrDomainIs(host, "cert.int-x3.letsencrypt.org") ||
+	hostOrDomainIs(host, "crl.globalsign.com") ||
+	hostOrDomainIs(host, "crl.globalsign.net") ||
+	hostOrDomainIs(host, "crl.identrust.com") ||
+	hostOrDomainIs(host, "crl3.digicert.com") ||
+	hostOrDomainIs(host, "crl4.digicert.com") ||
+	hostOrDomainIs(host, "isrg.trustid.ocsp.identrust.com") ||
+	hostOrDomainIs(host, "mscrl.microsoft.com") ||
+	hostOrDomainIs(host, "ocsp.digicert.com") ||
+	hostOrDomainIs(host, "ocsp.globalsign.com") ||
+	hostOrDomainIs(host, "ocsp.msocsp.com") ||
+	hostOrDomainIs(host, "ocsp2.globalsign.com") ||
+	hostOrDomainIs(host, "ocspx.digicert.com") ||
+	hostOrDomainIs(host, "secure.globalsign.com") ||
+	hostOrDomainIs(host, "www.digicert.com") ||
+	hostOrDomainIs(host, "www.microsoft.com") ||
+	hostOrDomainIs(host, "officespeech.platform.bing.com") ||
+	hostOrDomainIs(host, "office.com") ||
+	hostOrDomainIs(host, "microsoft365.com") ||
+	hostOrDomainIs(host, "microsoftusercontent.com") ||
+	hostOrDomainIs(host, "azure-apim.net") ||
+	hostOrDomainIs(host, "flow.microsoft.com") ||
+	hostOrDomainIs(host, "powerapps.com") ||
+	hostOrDomainIs(host, "powerautomate.com") ||
+	hostOrDomainIs(host, "activity.windows.com") ||
+	hostOrDomainIs(host, "cortana.ai") ||
+	hostOrDomainIs(host, "admin.microsoft.com") ||
+	hostOrDomainIs(host, "cdn.uci.officeapps.live.com"))
+   {
+      return 'DIRECT';
+   }
+
+
+
+
+   if ( url.substring(0, 6) === 'https:' )
+   {
+      return 'PROXY safeview-3dnhg328127.devatron.net:3129; PROXY safeview-3dnhg328127.devatron.net:3129; DIRECT';
+   }
+
+
+   if ( url.substring(0, 5) === 'http:' )
+   {
+      return 'PROXY safeview-3dnhg328127.devatron.net:3129; PROXY safeview-3dnhg328127.devatron.net:3129; DIRECT';
+   }
+
+   return 'DIRECT';
+}
